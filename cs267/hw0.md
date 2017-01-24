@@ -3,11 +3,9 @@ title: Homework 0
 permalink: /cs267/hw0
 ---
 
-## CS 267
+## CS 267 | Homework 0
 
-### Homework 0
-
-#### Ziheng Lin
+Ziheng Lin
 
  
 
