@@ -1,5 +1,6 @@
 ---
-title:Homework0
+title: Homework0
+permalink: /about/
 ---
 
 ## Homework 0
