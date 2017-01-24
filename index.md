@@ -1,4 +1,3 @@
-{% include other_file.md %}
 
 ## Welcome to GitHub Pages
 
