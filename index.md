@@ -1,3 +1,6 @@
+---
+title: 'This is my web page'
+---
 
 ## Welcome to GitHub Pages
 
