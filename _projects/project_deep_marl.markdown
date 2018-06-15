@@ -11,7 +11,7 @@ In everyday life, we use tools such as Google Maps to help us choose the route s
 Suppose there are many agents located on a map with fixed origins and destinations. For each agent, there are two tasks to learn simultaneously: 1. the best routes between the origin and the destination; 2. the estimated congestion along the route.
 The reinforcement learning algorithm is perfect at learning the best travel route when the environment is relatively stable. However, the difficulty comes that each agent is facing many other other agents who are also learning and changing strategies all the time. How do we develop an algorithm that could bring the system to an equilibrium, that is, every agent is satisfied with the choice of route and is not willing to change.
 
-<!-- <img class="three" src="{{ site.baseurl }}/assets/img/project_deep_marl/rl_diagram.png"> -->
+<img class="three" src="{{ site.baseurl }}/assets/img/project_deep_marl/rl_diagram.png">
 <p>
 <em>Figure1: Reinforcement Learning. Each agent receives state-space information and reward from the environment. The agents learns and make adjustments to their maneuver policy.</em>
 </p>
