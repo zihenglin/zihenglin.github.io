@@ -8,4 +8,5 @@ group :jekyll_plugins do
     gem 'jemoji'
     gem 'unicode_utils'
     gem "minimal-mistakes-jekyll"
+    gem 'jekyll-redirect-from'
 end

@@ -278,6 +278,7 @@ DEPENDENCIES
   jekyll
   jekyll-email-protect
   jekyll-paginate
+  jekyll-redirect-from
   jekyll-scholar
   jemoji
   minimal-mistakes-jekyll
