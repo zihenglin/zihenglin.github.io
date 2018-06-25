@@ -71,7 +71,7 @@ news_limit: 5
 
 # Build settings
 markdown: kramdown
-highlighter: pygments
+highlighter: rouge
 
 # Includes
 include: ['_pages']
@@ -81,6 +81,7 @@ gems:
     - jekyll-email-protect
     - jekyll-paginate
     - jekyll/scholar
+    - jekyll-redirect-from
     - jemoji
 
 # Jekyll-Scholar
