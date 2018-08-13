@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Ziheng Lin | Predicting Gym Members' Next Activity</title>
+  <meta name="description" content="# A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+">
+
+  <link rel="shortcut icon" href="http://localhost:4000/assets/img/favicon.ico">
+
+  <link rel="stylesheet" href="http://localhost:4000/assets/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/projects/project_lstm_gym_membership/">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    
+    <span class="site-title">
+      
+      <strong>Ziheng</strong> Lin
+    </span>
+    
+
+    <nav class="site-nav">
+      <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+      <label for="nav-trigger">
+        <span class="menu-icon">
+          <svg viewBox="0 0 18 15" width="18px" height="15px">
+            <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"
+            />
+            <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"
+            />
+            <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"
+            />
+          </svg>
+        </span>
+      </label>
+
+      <div class="trigger">
+        <!-- About -->
+        <a class="page-link" href="http://localhost:4000/">about</a>
+
+        <!-- Blog -->
+        <!-- <a class="page-link" href="http://localhost:4000/blog/">blog</a> -->
+
+        <!-- Projects -->
+        <!--          
+        <a class="page-link" href="http://localhost:4000/projects/">projects</a>
+                -->
+
+        <!-- CV link -->
+        <!-- <a class="page-link" href="http://localhost:4000/assets/pdf/CV.pdf">vitae</a> -->
+
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Predicting Gym Members' Next Activity</h1>
+    <h5 class="post-description"></h5>
+  </header>
+
+  <article class="post-content Predicting Gym Members' Next Activity clearfix">
+    <p>For business, such as gym, the owners would like to know when are their members coming to the gym and which class are they going to purchase next. Building forecasting models for the members’ behavior is valuable for helping the business owner make decisions. Usually, historical data is available for the modeling tasks. It includes history of members’ behaviors, such as classes they enrolled and when they show up, and etc.</p>
+
+<h3 id="the-lstm-model">The LSTM Model</h3>
+
+<p>Here we formulate the problem as given all the historical behavior of a member, what class is the person member going to choose next and when is the member going to show up next. We define the LSTM structure below. At each timestamp, the LSTM observes a member’s behavior that is encoded by its features. After the observation, the model predicts the member’s next behavior.</p>
+
+<p><img class="two" src="/assets/img/project_lstm_gym_membership/lstm_diagram.png" /></p>
+
+<h3 id="formulation-the-prediction">Formulation the prediction</h3>
+
+<h4 id="predicting-time-gaps">Predicting time gaps</h4>
+
+<p>The first thing we would like to predict is the time gap between the last observed activity to the nearest future activity. This is a continuous variable, but there are patterns in such time gaps that we are able to simplify the problem.</p>
+
+<p>We are able to observe peak in the time gaps histogram around 0, 24, 48,… hours. This shows members come to gym in relatively fixed time of day but different days of week. Therefore, we are able to discretize the time gaps into unite of days. Thus, we are able to formulate the output distribution from the LSTM model as a discrete distribution.</p>
+
+<p><img class="three" src="/assets/img/project_lstm_gym_membership/time_gap_distribution.png" /></p>
+
+<h4 id="predicting-class-choices">Predicting class choices</h4>
+
+<p>There are total of 17 different classes in the gym for members to choose from. The histogram of the number of unique classes per member is shown below.  The LSTM model predicts the probability of each class choice given the history of a member’s behavior. Majority of members stick with 1-4 unique classes and the very few members tried more than 4 different classes.</p>
+
+<p><img class="two" src="/assets/img/project_lstm_gym_membership/unique_classes_distribution.png" /></p>
+
+<h3 id="results">Results</h3>
+
+<p>We first show the prediction accuracy for the time gaps below. Human activities, as we all know, are difficult to predict. If we restrict the prediction to the most probable output from the model the accuracy of time gaps remains at around 50% correct. However, if we relax the such a constrain and allow the second and third most probable prediction, the chances of the model being correct increase to close to 90%. The plot below shows the prediction accuracy vs such constrain relaxation.</p>
+
+<p><img class="two" src="/assets/img/project_lstm_gym_membership/time_gap_accuracy.png" /></p>
+
+<p>We first show the class choice prediction accuracy. We show the prediction vs constrain relaxation as discussed above. The best choice from the model prediction over 60% accuracy, which is already significantly better than random guess amount 17 choices. If we inculde the second and third best choice, the accuracy increases to around 90%.</p>
+
+<p><img class="two" src="/assets/img/project_lstm_gym_membership/class_accuracy.png" /></p>
+
+<p>Lastly, we would like to investigate if the accuracy of the model prediction is related to the observation length of each member. We plot the prediction accuracy vs the number of observed data points of each member and we couldn’t observe significant correlation between the two. Thus, we suggest that the predictability of members’ behavior varies from person to person.</p>
+
+<p><img class="three" src="/assets/img/project_lstm_gym_membership/accuracy_vs_observation.png" /></p>
+
+  </article>
+
+  
+
+  
+
+</div>
+
+      </div>
+    </div>
+
+    <footer>
+
+  <div class="wrapper">
+    &copy; Copyright 2018 Ziheng Lin.
+    
+    
+  </div>
+
+</footer>
+
+
+    <!-- Load jQuery -->
+<script src="//code.jquery.com/jquery-1.12.4.min.js"></script>
+
+<!-- Load Common JS -->
+<script src="http://localhost:4000/assets/js/common.js"></script>
+
+
+<!-- Load KaTeX -->
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js"></script>
+<script src="http://localhost:4000/assets/js/katex.js"></script>
+
+
+
+
+<!-- Include custom icon fonts -->
+<link rel="stylesheet" href="http://localhost:4000/assets/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="http://localhost:4000/assets/css/academicons.min.css">
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-XXXXXXXXX', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+  </body>
+
+</html>

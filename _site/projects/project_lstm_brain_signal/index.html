@@ -6,14 +6,14 @@
   <meta name="viewport" content="width=device-width initial-scale=1" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-  <title>Ziheng Lin | a post with images</title>
+  <title>Ziheng Lin | Detecting Seizure using LSTM</title>
   <meta name="description" content="# A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
 ">
 
   <link rel="shortcut icon" href="http://localhost:4000/assets/img/favicon.ico">
 
   <link rel="stylesheet" href="http://localhost:4000/assets/css/main.css">
-  <link rel="canonical" href="http://localhost:4000/blog/2015/images/">
+  <link rel="canonical" href="http://localhost:4000/projects/project_lstm_brain_signal/">
 </head>
 
 
@@ -73,36 +73,44 @@
         <div class="post">
 
   <header class="post-header">
-    <h1 class="post-title">a post with images</h1>
-    <p class="post-meta">May 15, 2015</p>
+    <h1 class="post-title">Detecting Seizure using LSTM</h1>
+    <h5 class="post-description"></h5>
   </header>
 
-  <article class="post-content">
-    <p>Jean shorts raw denim Vice normcore, art party High Life PBR skateboard stumptown vinyl kitsch. Fingerstache four loko meh 8-bit, tousled banh mi tilde forage Schlitz dreamcatcher twee 3 wolf moon. Chambray asymmetrical paleo salvia, sartorial umami four loko master cleanse drinking vinegar brunch.</p>
+  <article class="post-content Detecting Seizure using LSTM clearfix">
+    <p>A seizure alert device may help notify others if a seizure happens. There are a few measurements that help seizure detection. Electroencephalogram (EEG) detects electrical activity in human brain using small electrodes attached to the scalp. Near-infrared spectroscopy (NIRS) is a non-invasive optical imaging technique that uses low levels of light to measure blood flow changes in the brain associated with brain activity. I implemented the LSTM models that detect seizure from EEG and NIRS measurements from human brains.</p>
 
-<div class="img_row">
-    <img class="col three" src="/assets/img/9.jpg" />
-</div>
-<div class="img_row">
-    <img class="col three" src="/assets/img/7.jpg" />
-</div>
-<div class="col three caption">
-    A simple, elegant caption looks good between image rows, after each row, or doesn't have to be there at all.
-</div>
-<div class="img_row">
-    <img class="col two first" src="/assets/img/8.jpg" />
-    <img class="col one last" src="/assets/img/10.jpg" />
-</div>
+<h3 id="the-lstm-model">The LSTM model</h3>
 
-<p>Slow-carb four dollar toast Helvetica pop-up. Kale chips next level literally trust fund Pitchfork. Jean shorts Pinterest beard, farm-to-table irony craft beer swag tofu 8-bit Banksy. Quinoa forage fanny pack, pug hashtag Echo Park heirloom Schlitz tote bag artisan Neutra mumblecore 90’s shabby chic raw denim.</p>
+<p>This is a sequence classification problem. The LSTM model takes EEG and NIRS signals as a short time-series input and output the probability of seizure in the input signal. EEG and NIRS signals are divided into fractions with fixed length. At each timestamp, the LSTM model takes selected channels of the EEG and NIRS singles. At the end of the sequence, the LSTM model outputs probability that classifies the input signal. The model is trained with label data with 4 classes non-seizure, pre-seizure, seizure, and post-seizure.</p>
 
-<div class="img_row">
-    <img class="col one first" src="/assets/img/11.jpg" />
-    <img class="col one" src="/assets/img/12.jpg" />
-    <img class="col one last" src="/assets/img/7.jpg" />
-</div>
+<p><img class="three" src="/assets/img/project_brain_signal/model_structure_demo.png" /></p>
+
+<h3 id="how-does-the-lstm-model-classify-sequences">How does the LSTM model classify sequences</h3>
+
+<p>LSTM models have memories inside the cells that cumulate information as the models “see” the input. The LSTM models decide whether to write the information into its memory or to refresh its memory. At the end, the pattern of LSTM memories are going to determine the probability of each class given the input sequence.</p>
+
+<p>The middle plot and the bottom plot shows the LSTM neural activations and the change of activation.  We can observe that the LSTM neural activations started with rapid changes. Then, the LSTM neural activations stabilize so that it is ready for predicting the classes of the input sequence.</p>
+
+<p><img class="three" src="/assets/img/project_brain_signal/lstm_activations_eeg_nirs_Post-seizure.png" /></p>
+
+<h3 id="lstm-model-with-attentions">LSTM model with attentions</h3>
+
+<p>I also implemented the LSTM model with attention. That is, at each timestamp, the LSTM model outputs a “filter” that is going to be overlaid on the input signal channels. The “filter” is just a probability distribution that sums to 1. So, the LSTM model decides what to pay attention to in the next timestamp.</p>
+
+<p>We can observe from the example below. Despite, many channels are input into the model, the model pays most of its attention to only 3 input channels.</p>
+
+<p><img class="three" src="/assets/img/project_brain_signal/lstm_activations_eeg_only_attention_Pre-seizure.png" /></p>
+
+<h3 id="results">Results</h3>
+
+<p>Here we show the ROC curves and confusion matrix for prediction on the testing dataset. The LSTM model does very good job in all four classes.</p>
+
+<p><img class="three" src="/assets/img/project_brain_signal/orc_confusion.png" /></p>
 
   </article>
+
+  
 
   
 

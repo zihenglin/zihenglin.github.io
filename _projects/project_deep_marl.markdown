@@ -5,7 +5,7 @@ description:
 thumbnail: /assets/img/project_deep_marl/network_with_congestion_cost.png
 ---
 
-In everyday life, we use tools such as Google Maps to help us choose the route so we spend the minimum amount of time on the road. The travel time depends on both the traveling distance and the congestion level along the route. The question comes that how we (or robots) can make trade-off between travel distances and congestion level so that the travel time is minimized. In this project, I show how to train agents to make routing decisions using multi-agent deep reinforcement learning. 
+We use apps like Google Maps to help us choose the route so we spend the minimum amount of time on the road. The travel time depends on both the traveling distance and the congestion level along the route. The question comes that how we (or robots) can make trade-off between travel distances and congestion level so that the travel time is minimized. In this project, I show how to train agents to make routing decisions using multi-agent deep reinforcement learning. 
 
 ### The problem
 Suppose there are many agents located on a map with fixed origins and destinations. For each agent, there are two tasks to learn simultaneously: 1. the best routes between the origin and the destination; 2. the estimated congestion along the route.
